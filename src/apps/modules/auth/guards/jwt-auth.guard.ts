@@ -22,7 +22,6 @@ export class JWTAuthGuard implements CanActivate {
     }
 
     const payload = await this.verifyAuthTokenFromHeader(authHeader);
-    console.log(payload);
     const user = await this.userRepository.getById(payload.userId);
     if (!user) {
       throw new GraphQLUnauthorizedError();

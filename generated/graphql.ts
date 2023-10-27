@@ -8,9 +8,33 @@
 /* tslint:disable */
 /* eslint-disable */
 
+export enum SortingUsersOptionInput {
+    CreatedAtAsc = "CreatedAtAsc",
+    CreatedAtDesc = "CreatedAtDesc",
+    UsernameAsc = "UsernameAsc",
+    UsernameDesc = "UsernameDesc"
+}
+
 export enum UserRole {
     User = "User",
     Admin = "Admin"
+}
+
+export interface QueryUsersInput {
+    pageOption: PageOptionInput;
+    filter: FilterUsersInput;
+    sortingOption: SortingUsersOptionInput;
+}
+
+export interface PageOptionInput {
+    limit: number;
+    skip: number;
+}
+
+export interface FilterUsersInput {
+    id_equal?: Nullable<string>;
+    username_equal?: Nullable<string>;
+    username_contains?: Nullable<string>;
 }
 
 export interface ManualRegisterInput {
@@ -47,6 +71,17 @@ export interface User {
     username: string;
 }
 
+export interface PageInfo {
+    hasPreviousPage: boolean;
+    hasNextPage: boolean;
+}
+
+export interface PaginatedUsers {
+    items: User[];
+    totalItems: number;
+    pageInfo: PageInfo;
+}
+
 export interface Token {
     value: string;
     expiresAt?: Nullable<DateTime>;
@@ -61,6 +96,7 @@ export interface IQuery {
     getHello(): string | Promise<string>;
     getMySelf(): User | Promise<User>;
     getUser(id: string): User | Promise<User>;
+    getUsers(queryUsersInput: QueryUsersInput): PaginatedUsers | Promise<PaginatedUsers>;
 }
 
 export interface IMutation {

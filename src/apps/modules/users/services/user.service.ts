@@ -4,8 +4,9 @@ import { Injectable } from '@nestjs/common';
 import { User } from '@shared/models';
 import { UserNotFoundError } from '../errors';
 import { UserHelper } from '../helpers';
-import { CreateUserInput, UpdateUserInput } from '../inputs';
+import { CreateUserInput, QueryUsersInput, UpdateUserInput } from '../inputs';
 import { UserRepository } from '../repositories';
+import { PaginatedUsers } from '../types';
 
 @Injectable()
 export class UserService {
@@ -31,6 +32,25 @@ export class UserService {
     }
 
     return user;
+  }
+
+  async getUsers(queryUserInput: QueryUsersInput): Promise<PaginatedUsers> {
+    const { filter, sortingOption, pageOption } = queryUserInput;
+    const users = await this.userRepository.getByFilter(
+      filter,
+      sortingOption,
+      pageOption,
+    );
+    const totalUsers = await this.userRepository.countByFilter(filter);
+
+    return {
+      items: users,
+      totalItems: totalUsers,
+      pageInfo: {
+        hasPreviousPage: pageOption.limit > 1,
+        hasNextPage: pageOption.limit + pageOption.skip < totalUsers,
+      },
+    };
   }
 
   async updateUser(updateUserInput: UpdateUserInput): Promise<boolean> {

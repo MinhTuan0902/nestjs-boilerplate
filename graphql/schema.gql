@@ -17,6 +17,17 @@ A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date
 """
 scalar DateTime
 
+type PageInfo {
+  hasPreviousPage: Boolean!
+  hasNextPage: Boolean!
+}
+
+type PaginatedUsers {
+  items: [User!]!
+  totalItems: Int!
+  pageInfo: PageInfo!
+}
+
 type Token {
   value: String!
   expiresAt: DateTime
@@ -31,6 +42,31 @@ type Query {
   getHello: String!
   getMySelf: User!
   getUser(id: String!): User!
+  getUsers(queryUsersInput: QueryUsersInput!): PaginatedUsers!
+}
+
+input QueryUsersInput {
+  pageOption: PageOptionInput!
+  filter: FilterUsersInput!
+  sortingOption: SortingUsersOptionInput! = CreatedAtAsc
+}
+
+input PageOptionInput {
+  limit: Int! = 10
+  skip: Int! = 0
+}
+
+input FilterUsersInput {
+  id_equal: ID
+  username_equal: String
+  username_contains: String
+}
+
+enum SortingUsersOptionInput {
+  CreatedAtAsc
+  CreatedAtDesc
+  UsernameAsc
+  UsernameDesc
 }
 
 type Mutation {
