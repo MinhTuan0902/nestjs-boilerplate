@@ -30,5 +30,9 @@
 **/values.dev.yaml
 **/build
 **/dist
+**/scripts
+**/generated
+/graphql
+templates/migrations/**/*
 LICENSE
 README.md

@@ -2,7 +2,7 @@ version: 3.0.0
 
 services:
   mongodb:
-    container_name: boilerplate-database
+    container_name: database
     image: mongo:7.0-jammy
     restart: always
     networks:
@@ -13,7 +13,7 @@ services:
       - 27017:27017
 
   server:
-    container_name: boilerplate-api
+    container_name: api
     build:
       context: .
     depends_on:

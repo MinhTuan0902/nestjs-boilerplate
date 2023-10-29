@@ -6,6 +6,7 @@ WORKDIR /usr/src/app
 
 FROM base as deps
 
+# Install runtime dependencies
 RUN --mount=type=bind,source=package.json,target=package.json \
     --mount=type=bind,source=package-lock.json,target=package-lock.json \
     --mount=type=cache,target=/root/.npm \
@@ -13,6 +14,7 @@ RUN --mount=type=bind,source=package.json,target=package.json \
 
 FROM deps as build
 
+# Install build-time dependencies (including devDependencies)
 RUN --mount=type=bind,source=package.json,target=package.json \
     --mount=type=bind,source=package-lock.json,target=package-lock.json \
     --mount=type=cache,target=/root/.npm \
@@ -20,7 +22,13 @@ RUN --mount=type=bind,source=package.json,target=package.json \
 
 COPY . .
 
-RUN npm run build
+RUN npm run build:all
+
+# Build API
+# RUN npm run build
+
+#Build worker
+# RUN npm run build:worker
 
 FROM base as final
 
@@ -28,9 +36,14 @@ ENV NODE_ENV production
 
 COPY package.json .
 
+# Copy runtiem dependencies from deps stage
 COPY --from=deps /usr/src/app/node_modules ./node_modules
+
+# Copy built application from build stage
 COPY --from=build /usr/src/app/dist ./dist
+COPY --from=build /usr/src/app/templates ./templates
 
 EXPOSE ${PORT}
 
-CMD npm run start:prod
+# Start API server on production environment
+CMD npm run start:api:prod

@@ -2,7 +2,7 @@ import { Field, ObjectType } from '@nestjs/graphql';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { UserRole } from '@shared/enums';
 import { Document } from 'mongoose';
-import { BaseModel } from './base.model';
+import { BaseModel } from './base';
 
 @ObjectType()
 @Schema({ timestamps: true })
