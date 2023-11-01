@@ -38,6 +38,7 @@
     "bcrypt": "^5.1.1",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.0",
+    "commander": "^11.1.0",
     "graphql": "^16.8.1",
     "mongoose": "^7.6.3",
     "mustache": "^4.2.0",
