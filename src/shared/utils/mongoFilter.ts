@@ -38,7 +38,7 @@ export const transformFilterToMongoFilterQuery = (filter: unknown) => {
           filterQuery[field] = { $gt: value };
           break;
 
-        case 'moreThanOrEqual':
+        case 'greaterThanOrEqual':
           filterQuery[field] = { $gte: value };
           break;
 
