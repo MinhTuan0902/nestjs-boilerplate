@@ -4,7 +4,7 @@
       <mj-column>
         <mj-image width="100px" src="../../../public/assets/logo.png"></mj-image>
         <mj-divider border-color="#F45E43"></mj-divider>
-        <mj-text font-size="20px" color="#F45E43" font-family="Cascadia Code">Welcome to Boilerplate ✌️</mj-text>
+        <mj-text font-size="20px" color="#F45E43" font-family="Cascadia Code">Welcome to <b>Boilerplate</b> ✌️</mj-text>
         <mj-text font-size="16px" color="#707070" font-family="Cascadia Code">Hi Nguyễn Minh Tuấn,</mj-text>
         <mj-text font-size="16px" color="#707070" font-family="Cascadia Code">We have received an verification email request at 12:00 pm Friday, February 9th 2001 (It's my birthday 😂). Please click below button to verify your email.
           It will expire after 5 minutes.

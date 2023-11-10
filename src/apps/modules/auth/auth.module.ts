@@ -2,6 +2,7 @@ import { getJWTModuleOptions } from '@configs/auth';
 import { Module, forwardRef } from '@nestjs/common';
 import { JwtModule } from '@nestjs/jwt';
 import { EnvService } from '@shared/modules/env/env.service';
+import { SendEmailWorkerModule } from '@worker/modules/send-email/send-email.worker.module';
 import { TokenModule } from '../tokens/token.module';
 import { UserModule } from '../users/user.module';
 import { AuthController } from './controllers';
@@ -18,6 +19,7 @@ import { AuthService } from './services';
     }),
     forwardRef(() => UserModule),
     TokenModule,
+    SendEmailWorkerModule,
   ],
   controllers: [AuthController],
   providers: [

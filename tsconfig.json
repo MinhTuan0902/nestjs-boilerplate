@@ -20,7 +20,8 @@
     "paths": {
       "@app/modules/*": ["src/apps/modules/*"],
       "@configs/*": ["src/configs/*"],
-      "@shared/*": ["src/shared/*"]
+      "@shared/*": ["src/shared/*"],
+      "@worker/modules/*": ["src/workers/modules/*"]
     }
   }
 }

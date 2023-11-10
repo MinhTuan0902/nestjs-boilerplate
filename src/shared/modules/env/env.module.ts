@@ -4,6 +4,7 @@ import { EnvService } from './env.service';
 
 @Global()
 @Module({
+  // TODO: Validate .env
   imports: [ConfigModule.forRoot({ isGlobal: true, envFilePath: '.env' })],
   providers: [EnvService],
   exports: [EnvService],

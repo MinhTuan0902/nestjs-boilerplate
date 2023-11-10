@@ -5,6 +5,7 @@ import { Injectable } from '@nestjs/common';
 import { EventEmitter2 } from '@nestjs/event-emitter';
 import { EventName, TokenType } from '@shared/enums';
 import { User } from '@shared/models';
+import { SendEmailWorkerService } from '@worker/modules/send-email';
 import { randomBytes } from 'crypto';
 import { Request, Response } from 'express';
 import { Types } from 'mongoose';
@@ -32,6 +33,7 @@ export class AuthService {
     private readonly tokenRepository: TokenRepository,
     private readonly userHelper: UserHelper,
     private readonly userRepository: UserRepository,
+    private readonly sendEmailWorkerService: SendEmailWorkerService,
   ) {}
 
   async manualRegister(
@@ -50,6 +52,7 @@ export class AuthService {
     const newUser = await this.userRepository.create(manualRegisterInput);
     const authTokens = this.authTokenHelper.generateAuthTokens(newUser);
 
+    // TODO: Send and save token
     this.eventEmitter.emitAsync(EventName.UserLoggedIn);
 
     return authTokens;
@@ -107,7 +110,9 @@ export class AuthService {
 
     // NOTE: That an example of verification URL
     const url = `http://localhost:3000/auth/verify_email?token=${verificationToken}`;
-
+    this.sendEmailWorkerService.addSendEmailJobToQueue({
+      email: 'example@gmail.com',
+    });
     return true;
   }
 
