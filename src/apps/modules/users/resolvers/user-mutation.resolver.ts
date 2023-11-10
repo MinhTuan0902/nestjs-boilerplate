@@ -14,7 +14,7 @@ import { UserService } from '../services';
 export class UserMutationResolver {
   constructor(private readonly userService: UserService) {}
 
-  // Guard ở gần với controller/resolver hơn thì chạy trước
+  // NOTE: Guard ở gần với controller/resolver hơn thì chạy trước
   @RequireRoles(UserRole.Admin)
   @RequireAuth()
   @Mutation(() => User)
@@ -35,7 +35,7 @@ export class UserMutationResolver {
     @CurrentUser() { _id: currentUserId }: User,
     @Args('updateUserInput') updateUserInput: UpdateUserInput,
   ): Promise<boolean> {
-    if (currentUserId.toString() === updateUserInput.userId) {
+    if (currentUserId.toString() === updateUserInput.id) {
       return false;
     }
 

@@ -5,6 +5,7 @@ import {
   TransformTrimString,
 } from '@shared/decorators/transform';
 import { UserRole } from '@shared/enums';
+import { MaxLength, MinLength } from 'class-validator';
 
 @InputType()
 export class CreateUserInput {
@@ -17,12 +18,26 @@ export class CreateUserInput {
   username: string;
 
   @TransformTrimString()
+  @MinLength(8)
+  @MaxLength(36)
+  @Field(() => String)
+  fullName: string;
+
+  @TransformTrimString()
   @TransformLowerCaseString()
   @IsValidPassword()
   @Field(() => String)
   password: string;
   encryptedPassword: string;
 
-  @Field(() => UserRole)
+  @Field(() => UserRole, { defaultValue: UserRole.User })
   role: UserRole;
+
+  @TransformTrimString()
+  @TransformLowerCaseString()
+  @Field(() => String, { nullable: true })
+  email?: string;
+
+  @Field(() => Boolean, { nullable: true })
+  isVerifiedEmail?: boolean;
 }

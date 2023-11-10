@@ -69,6 +69,10 @@ input FilterUsersInput {
   id_equal: ID
   username_equal: String
   username_contains: String
+  fullName_equal: String
+  fullName_contains: String
+  role_equal: UserRole
+  role_in: [UserRole!]
 }
 
 enum SortingUsersOptionInput {
@@ -81,7 +85,8 @@ enum SortingUsersOptionInput {
 type Mutation {
   manualRegister(manualRegisterInput: ManualRegisterInput!): AuthTokens!
   manualLogin(manualLoginInput: ManualLoginInput!): AuthTokens!
-  updateEmail(email: String!): Boolean!
+  updateEmail(newEmail: String!): Boolean!
+  makeVerificationEmail: Boolean!
   createUser(createUserInput: CreateUserInput!): User!
   updateUser(updateUserInput: UpdateUserInput!): Boolean!
   deleteUser(id: String!): Boolean!
@@ -101,14 +106,19 @@ input ManualLoginInput {
 
 input CreateUserInput {
   username: String!
+  fullName: String!
   password: String!
-  role: UserRole!
+  role: UserRole! = User
+  email: String
+  isVerifiedEmail: Boolean
 }
 
 input UpdateUserInput {
   username: String
+  fullName: String
   password: String
-  role: UserRole
-  userId: ID!
+  role: UserRole = User
   email: String
+  isVerifiedEmail: Boolean
+  id: ID!
 }

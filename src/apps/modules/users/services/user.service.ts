@@ -7,18 +7,24 @@ import { UserHelper } from '../helpers';
 import { CreateUserInput, QueryUsersInput, UpdateUserInput } from '../inputs';
 import { UserRepository } from '../repositories';
 import { PaginatedUsers } from '../types';
+import { UserHelperService } from './user-helper.service';
 
 @Injectable()
 export class UserService {
   constructor(
+    private readonly userHelperService: UserHelperService,
     private readonly userRepository: UserRepository,
     private readonly userHelper: UserHelper,
   ) {}
 
   async createUser(createUserInput: CreateUserInput): Promise<User> {
-    const { username, password } = createUserInput;
+    const { username, email, password } = createUserInput;
     if (await this.userHelper.isTakenUsername(username)) {
       throw new TakenUsernameError();
+    }
+
+    if (email && (await this.userHelper.isTakenEmail(email))) {
+      throw new TakenEmailError();
     }
 
     createUserInput.encryptedPassword = encryptPassword(password);
@@ -26,12 +32,7 @@ export class UserService {
   }
 
   async getUser(id: string): Promise<User> {
-    const user = await this.userRepository.getById(id);
-    if (!user) {
-      throw new UserNotFoundError();
-    }
-
-    return user;
+    return this.userHelperService.getUserById(id);
   }
 
   async getUsers(queryUserInput: QueryUsersInput): Promise<PaginatedUsers> {
@@ -54,11 +55,8 @@ export class UserService {
   }
 
   async updateUser(updateUserInput: UpdateUserInput): Promise<boolean> {
-    const { userId, username, email, password } = updateUserInput;
-    const user = await this.userRepository.getById(userId);
-    if (!user) {
-      throw new UserNotFoundError();
-    }
+    const { id, username, email, password } = updateUserInput;
+    const user = await this.userHelperService.getUserById(id);
 
     if (
       username &&

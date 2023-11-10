@@ -2,7 +2,9 @@ import { getJWTModuleOptions } from '@configs/auth';
 import { Module, forwardRef } from '@nestjs/common';
 import { JwtModule } from '@nestjs/jwt';
 import { EnvService } from '@shared/modules/env/env.service';
+import { TokenModule } from '../tokens/token.module';
 import { UserModule } from '../users/user.module';
+import { AuthController } from './controllers';
 import { JWTAuthGuard, RolesGuard } from './guards';
 import { AuthTokenHelper } from './helpers';
 import { AuthMutationResolver, AuthQueryResolver } from './resolvers';
@@ -15,7 +17,9 @@ import { AuthService } from './services';
       useFactory: (envService: EnvService) => getJWTModuleOptions(envService),
     }),
     forwardRef(() => UserModule),
+    TokenModule,
   ],
+  controllers: [AuthController],
   providers: [
     // Guards
     JWTAuthGuard,

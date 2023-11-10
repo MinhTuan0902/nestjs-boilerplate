@@ -2,6 +2,7 @@ import { ManualRegisterInput } from '@app/modules/auth/inputs';
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { PageOptionInput } from '@shared/inputs';
+import { IRepository } from '@shared/interfaces';
 import { User, UserDocument } from '@shared/models';
 import {
   transformFilterToMongoFilterQuery,
@@ -16,7 +17,7 @@ import {
 } from '../inputs';
 
 @Injectable()
-export class UserRepository {
+export class UserRepository implements IRepository {
   constructor(
     @InjectModel(User.name) private readonly userModel: Model<UserDocument>,
   ) {}
@@ -57,7 +58,7 @@ export class UserRepository {
 
   async update(updateUserInput: UpdateUserInput): Promise<boolean> {
     const { matchedCount, modifiedCount } = await this.userModel.updateOne(
-      { _id: updateUserInput.userId },
+      { _id: updateUserInput.id },
       { $set: updateUserInput },
     );
 

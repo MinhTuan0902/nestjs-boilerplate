@@ -2,6 +2,7 @@ import { getMongooseModuleOptions } from '@configs/databases';
 import { getApolloDriverConfig } from '@configs/graphql';
 import { ApolloDriverConfig } from '@nestjs/apollo';
 import { Module } from '@nestjs/common';
+import { EventEmitterModule } from '@nestjs/event-emitter';
 import { GraphQLModule } from '@nestjs/graphql';
 import { MongooseModule } from '@nestjs/mongoose';
 import { EnvModule } from '@shared/modules/env/env.module';
@@ -24,6 +25,8 @@ import { UserModule } from './modules/users/user.module';
     }),
 
     GraphQLModule.forRoot<ApolloDriverConfig>(getApolloDriverConfig()),
+
+    EventEmitterModule.forRoot(),
 
     // Modules
     AuthModule,

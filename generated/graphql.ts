@@ -35,6 +35,10 @@ export interface FilterUsersInput {
     id_equal?: Nullable<string>;
     username_equal?: Nullable<string>;
     username_contains?: Nullable<string>;
+    fullName_equal?: Nullable<string>;
+    fullName_contains?: Nullable<string>;
+    role_equal?: Nullable<UserRole>;
+    role_in?: Nullable<UserRole[]>;
 }
 
 export interface ManualRegisterInput {
@@ -51,16 +55,21 @@ export interface ManualLoginInput {
 
 export interface CreateUserInput {
     username: string;
+    fullName: string;
     password: string;
     role: UserRole;
+    email?: Nullable<string>;
+    isVerifiedEmail?: Nullable<boolean>;
 }
 
 export interface UpdateUserInput {
     username?: Nullable<string>;
+    fullName?: Nullable<string>;
     password?: Nullable<string>;
     role?: Nullable<UserRole>;
-    userId: string;
     email?: Nullable<string>;
+    isVerifiedEmail?: Nullable<boolean>;
+    id: string;
 }
 
 export interface User {
@@ -108,7 +117,8 @@ export interface IQuery {
 export interface IMutation {
     manualRegister(manualRegisterInput: ManualRegisterInput): AuthTokens | Promise<AuthTokens>;
     manualLogin(manualLoginInput: ManualLoginInput): AuthTokens | Promise<AuthTokens>;
-    updateEmail(email: string): boolean | Promise<boolean>;
+    updateEmail(newEmail: string): boolean | Promise<boolean>;
+    makeVerificationEmail(): boolean | Promise<boolean>;
     createUser(createUserInput: CreateUserInput): User | Promise<User>;
     updateUser(updateUserInput: UpdateUserInput): boolean | Promise<boolean>;
     deleteUser(id: string): boolean | Promise<boolean>;

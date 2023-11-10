@@ -5,7 +5,7 @@ import { User, UserSchema } from '@shared/models';
 import { AuthModule } from '../auth/auth.module';
 import { UserHelper } from './helpers';
 import { UserMutationResolver, UserQueryResolver } from './resolvers';
-import { UserService } from './services';
+import { UserHelperService, UserService } from './services';
 
 @Module({
   imports: [
@@ -29,6 +29,7 @@ import { UserService } from './services';
     UserQueryResolver,
 
     // Services
+    UserHelperService,
     UserService,
   ],
   exports: [

@@ -12,11 +12,13 @@ export class UpdateUserInput extends PartialType(CreateUserInput) {
   updaterId?: string;
 
   @Field(() => ID)
-  userId: string;
+  id: string;
 
   @TransformTrimString()
   @TransformLowerCaseString()
   @IsEmail()
   @Field(() => String, { nullable: true })
   email?: string;
+
+  isVerifiedEmail: boolean;
 }

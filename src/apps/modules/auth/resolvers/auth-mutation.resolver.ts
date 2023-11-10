@@ -27,9 +27,17 @@ export class AuthMutationResolver {
   @RequireAuth()
   @Mutation(() => Boolean)
   async updateEmail(
-    @Args('email', ParseEmailPipe) email: string,
-    @CurrentUser() { _id: currentUserId, email: currentEmail }: User,
+    @Args('newEmail', ParseEmailPipe) newEmail: string,
+    @CurrentUser() currentUser: User,
   ): Promise<boolean> {
-    return this.authService.updateEmail(currentUserId, currentEmail, email);
+    return this.authService.updateEmail(currentUser, newEmail);
+  }
+
+  @RequireAuth()
+  @Mutation(() => Boolean)
+  async makeVerificationEmail(
+    @CurrentUser() currentUser: User,
+  ): Promise<boolean> {
+    return this.authService.makeVerificationEmail(currentUser);
   }
 }
