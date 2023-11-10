@@ -10,12 +10,21 @@ type User {
   creatorId: ID
   updaterId: ID
   username: String!
+  fullName: String!
+  role: UserRole!
+  email: String
+  isVerifiedEmail: Boolean!
 }
 
 """
 A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
 """
 scalar DateTime
+
+enum UserRole {
+  User
+  Admin
+}
 
 type PageInfo {
   hasPreviousPage: Boolean!
@@ -72,6 +81,7 @@ enum SortingUsersOptionInput {
 type Mutation {
   manualRegister(manualRegisterInput: ManualRegisterInput!): AuthTokens!
   manualLogin(manualLoginInput: ManualLoginInput!): AuthTokens!
+  updateEmail(email: String!): Boolean!
   createUser(createUserInput: CreateUserInput!): User!
   updateUser(updateUserInput: UpdateUserInput!): Boolean!
   deleteUser(id: String!): Boolean!
@@ -79,6 +89,7 @@ type Mutation {
 
 input ManualRegisterInput {
   username: String!
+  fullName: String!
   password: String!
   repeatPassword: String!
 }
@@ -94,14 +105,10 @@ input CreateUserInput {
   role: UserRole!
 }
 
-enum UserRole {
-  User
-  Admin
-}
-
 input UpdateUserInput {
   username: String
   password: String
   role: UserRole
   userId: ID!
+  email: String
 }

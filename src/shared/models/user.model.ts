@@ -12,10 +12,23 @@ export class User extends BaseModel {
   username: string;
 
   @Prop({ type: String })
+  @Field(() => String)
+  fullName: string;
+
+  @Prop({ type: String })
   encryptedPassword: string;
 
   @Prop({ type: String, enum: UserRole, default: UserRole.User })
+  @Field(() => UserRole)
   role: UserRole;
+
+  @Prop({ type: String })
+  @Field(() => String, { nullable: true })
+  email?: string;
+
+  @Prop({ type: Boolean, default: false })
+  @Field(() => Boolean)
+  isVerifiedEmail: boolean;
 }
 
 export type UserDocument = User & Document;

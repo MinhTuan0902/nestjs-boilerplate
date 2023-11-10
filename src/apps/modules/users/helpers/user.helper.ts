@@ -8,4 +8,8 @@ export class UserHelper {
   async isTakenUsername(username: string): Promise<boolean> {
     return !!(await this.userRepository.getByUsername(username));
   }
+
+  async isTakenEmail(email: string): Promise<boolean> {
+    return !!(await this.userRepository.getByEmail(email));
+  }
 }

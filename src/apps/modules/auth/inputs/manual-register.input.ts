@@ -3,6 +3,7 @@ import {
   TransformLowerCaseString,
   TransformTrimString,
 } from '@shared/decorators/transform';
+import { MaxLength, MinLength } from 'class-validator';
 import { IsValidPassword, IsValidUsername } from '../decorators';
 
 @InputType()
@@ -12,6 +13,12 @@ export class ManualRegisterInput {
   @IsValidUsername()
   @Field(() => String)
   username: string;
+
+  @TransformTrimString()
+  @MinLength(8)
+  @MaxLength(36)
+  @Field(() => String)
+  fullName: string;
 
   @IsValidPassword()
   @Field(() => String)

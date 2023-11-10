@@ -4,6 +4,7 @@ import { Injectable } from '@nestjs/common';
 import {
   InvalidCredentialsError,
   NotMatchingPasswordError,
+  TakenEmailError,
   TakenUsernameError,
 } from '../errors';
 import {
@@ -49,5 +50,27 @@ export class AuthService {
 
     const authTokens = this.authTokenHelper.generateAuthTokens(user);
     return authTokens;
+  }
+
+  async updateEmail(
+    userId: string,
+    currentEmail: string,
+    email: string,
+  ): Promise<boolean> {
+    if (currentEmail === email) {
+      return true;
+    } else if (await this.userHelper.isTakenEmail(email)) {
+      throw new TakenEmailError();
+    }
+
+    const updateResult = await this.userRepository.update({
+      userId: userId,
+      email: email,
+    });
+    if (updateResult) {
+      // TODO: Send verify email
+    }
+
+    return updateResult;
   }
 }

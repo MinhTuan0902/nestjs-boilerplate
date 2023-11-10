@@ -8,16 +8,16 @@
 /* tslint:disable */
 /* eslint-disable */
 
+export enum UserRole {
+    User = "User",
+    Admin = "Admin"
+}
+
 export enum SortingUsersOptionInput {
     CreatedAtAsc = "CreatedAtAsc",
     CreatedAtDesc = "CreatedAtDesc",
     UsernameAsc = "UsernameAsc",
     UsernameDesc = "UsernameDesc"
-}
-
-export enum UserRole {
-    User = "User",
-    Admin = "Admin"
 }
 
 export interface QueryUsersInput {
@@ -39,6 +39,7 @@ export interface FilterUsersInput {
 
 export interface ManualRegisterInput {
     username: string;
+    fullName: string;
     password: string;
     repeatPassword: string;
 }
@@ -59,6 +60,7 @@ export interface UpdateUserInput {
     password?: Nullable<string>;
     role?: Nullable<UserRole>;
     userId: string;
+    email?: Nullable<string>;
 }
 
 export interface User {
@@ -69,6 +71,10 @@ export interface User {
     creatorId?: Nullable<string>;
     updaterId?: Nullable<string>;
     username: string;
+    fullName: string;
+    role: UserRole;
+    email?: Nullable<string>;
+    isVerifiedEmail: boolean;
 }
 
 export interface PageInfo {
@@ -102,6 +108,7 @@ export interface IQuery {
 export interface IMutation {
     manualRegister(manualRegisterInput: ManualRegisterInput): AuthTokens | Promise<AuthTokens>;
     manualLogin(manualLoginInput: ManualLoginInput): AuthTokens | Promise<AuthTokens>;
+    updateEmail(email: string): boolean | Promise<boolean>;
     createUser(createUserInput: CreateUserInput): User | Promise<User>;
     updateUser(updateUserInput: UpdateUserInput): boolean | Promise<boolean>;
     deleteUser(id: string): boolean | Promise<boolean>;

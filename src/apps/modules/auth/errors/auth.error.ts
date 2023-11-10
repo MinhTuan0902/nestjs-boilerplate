@@ -8,6 +8,13 @@ export class TakenUsernameError extends GraphQLBadRequestError {
   }
 }
 
+export class TakenEmailError extends GraphQLBadRequestError {
+  constructor() {
+    super(ErrorCode.TakenEmail, 'The email has been taken');
+    this.name = 'TakenEmailError';
+  }
+}
+
 export class NotMatchingPasswordError extends GraphQLBadRequestError {
   constructor() {
     super(
