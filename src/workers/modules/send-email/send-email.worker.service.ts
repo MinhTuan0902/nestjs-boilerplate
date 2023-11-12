@@ -3,7 +3,8 @@ import { QueueName } from '@shared/enums';
 import { Queue } from 'bull';
 
 export interface SendEmailJobPayload {
-  email: string;
+  toEmail: string;
+  mjmlTemplatePath: string;
 }
 
 export class SendEmailWorkerService {

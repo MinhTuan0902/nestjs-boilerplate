@@ -9,6 +9,7 @@ export class SendEmailWorkerConsumer {
 
   @Process()
   async handleSendEmailJob(job: Job<SendEmailJobPayload>) {
-    console.log(job.data);
+    // TODO: Make and send verification email
+    return;
   }
 }

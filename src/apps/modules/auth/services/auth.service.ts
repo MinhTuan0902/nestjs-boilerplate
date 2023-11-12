@@ -106,12 +106,12 @@ export class AuthService {
       type: TokenType.Verify,
       expiresAt: new Date(Date.now() + VERIFICATION_EMAIL_TOKEN_TTL),
     });
-    // TODO: Make and send verification email
 
     // NOTE: That an example of verification URL
     const url = `http://localhost:3000/auth/verify_email?token=${verificationToken}`;
     this.sendEmailWorkerService.addSendEmailJobToQueue({
-      email: 'example@gmail.com',
+      toEmail: 'example@gmail.com',
+      mjmlTemplatePath: '',
     });
     return true;
   }
