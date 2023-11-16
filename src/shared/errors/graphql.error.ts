@@ -1,9 +1,9 @@
 import { HttpStatus } from '@nestjs/common';
-import { ErrorCode } from '@shared/enums/error-code.enum';
+import { ERROR_CODES } from '@shared/constants';
 import { GraphQLError } from 'graphql';
 
 export class GraphQLBadRequestError extends GraphQLError {
-  constructor(errorCode: ErrorCode, message: string) {
+  constructor(errorCode: string, message: string) {
     super(message, {
       extensions: {
         code: HttpStatus.BAD_REQUEST,
@@ -16,7 +16,7 @@ export class GraphQLBadRequestError extends GraphQLError {
 
 export class ValidationFailedError extends GraphQLBadRequestError {
   constructor(message: string) {
-    super(ErrorCode.ValidationFailed, message);
+    super(ERROR_CODES.ValidationFailed, message);
     this.name = 'ValidationFailedError';
   }
 }
@@ -27,7 +27,7 @@ export class GraphQLUnauthorizedError extends GraphQLError {
       extensions: {
         code: HttpStatus.UNAUTHORIZED,
         status: 'UNAUTHORIZED',
-        errorCode: ErrorCode.Unauthorized,
+        errorCode: ERROR_CODES.Unauthorized,
       },
     });
     this.name = 'GraphQLUnauthorizedError';
@@ -35,7 +35,7 @@ export class GraphQLUnauthorizedError extends GraphQLError {
 }
 
 export class GraphQLNotFoundError extends GraphQLError {
-  constructor(errorCode: ErrorCode, message: string) {
+  constructor(errorCode: string, message: string) {
     super(message, {
       extensions: {
         code: HttpStatus.NOT_FOUND,
@@ -52,7 +52,7 @@ export class GraphQLForbiddenActionError extends GraphQLError {
       extensions: {
         code: HttpStatus.FORBIDDEN,
         status: 'FORBIDDEN',
-        errorCode: ErrorCode.ForbiddenAction,
+        errorCode: ERROR_CODES.ForbiddenAction,
       },
     });
     this.name = 'GraphQLForbiddenActionError';

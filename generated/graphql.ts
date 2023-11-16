@@ -69,7 +69,7 @@ export interface UpdateUserInput {
     role?: Nullable<UserRole>;
     email?: Nullable<string>;
     isVerifiedEmail?: Nullable<boolean>;
-    id: string;
+    userId: string;
 }
 
 export interface User {

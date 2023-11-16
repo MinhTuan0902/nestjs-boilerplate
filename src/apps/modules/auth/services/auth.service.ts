@@ -3,7 +3,8 @@ import { UserHelper } from '@app/modules/users/helpers';
 import { UserRepository } from '@app/modules/users/repositories';
 import { Injectable } from '@nestjs/common';
 import { EventEmitter2 } from '@nestjs/event-emitter';
-import { EventName, TokenType } from '@shared/enums';
+import { EMAIL_TEMPLATE_PATHS, EVENT_NAMES } from '@shared/constants';
+import { TokenType } from '@shared/enums';
 import { User } from '@shared/models';
 import { SendEmailWorkerService } from '@worker/modules/send-email';
 import { randomBytes } from 'crypto';
@@ -17,13 +18,13 @@ import {
 } from '../errors';
 import {
   AuthTokenHelper,
+  VERIFICATION_EMAIL_TOKEN_TTL,
   encryptPassword,
   isMatchingPassword,
+  makeVerificationEmailUrl,
 } from '../helpers';
 import { ManualLoginInput, ManualRegisterInput } from '../inputs';
 import { AuthTokens } from '../types';
-
-const VERIFICATION_EMAIL_TOKEN_TTL = 5 * 60 * 1000; // 5 minutes
 
 @Injectable()
 export class AuthService {
@@ -53,7 +54,7 @@ export class AuthService {
     const authTokens = this.authTokenHelper.generateAuthTokens(newUser);
 
     // TODO: Send and save token
-    this.eventEmitter.emitAsync(EventName.UserLoggedIn);
+    this.eventEmitter.emitAsync(EVENT_NAMES.UserLoggedIn);
 
     return authTokens;
   }
@@ -67,35 +68,42 @@ export class AuthService {
 
     const authTokens = this.authTokenHelper.generateAuthTokens(user);
 
-    this.eventEmitter.emitAsync(EventName.UserLoggedIn);
+    this.eventEmitter.emitAsync(EVENT_NAMES.UserLoggedIn);
 
     return authTokens;
   }
 
   async updateEmail(currentUser: User, newEmail: string): Promise<boolean> {
     const { _id: userId, email: currentEmail } = currentUser;
-    if (currentEmail === newEmail) {
-      return true;
-    }
+    if (currentEmail === newEmail) return true;
 
     if (await this.userHelper.isTakenEmail(newEmail)) {
       throw new TakenEmailError();
     }
 
     const updateResult = await this.userRepository.update({
-      id: userId,
+      userId: userId,
       email: newEmail,
       isVerifiedEmail: false,
     });
     if (updateResult) {
-      this.eventEmitter.emitAsync(EventName.UserUpdatedEmail, userId, newEmail);
+      this.eventEmitter.emitAsync(
+        EVENT_NAMES.UserUpdatedEmail,
+        currentUser,
+        newEmail,
+      );
     }
 
     return updateResult;
   }
 
   async makeVerificationEmail(currentUser: User): Promise<boolean> {
-    const { _id: currentUserId, email, isVerifiedEmail } = currentUser;
+    const {
+      _id: currentUserId,
+      email,
+      isVerifiedEmail,
+      fullName,
+    } = currentUser;
     if (!email || (email && isVerifiedEmail)) return false;
 
     const verificationToken = randomBytes(32).toString('hex');
@@ -107,26 +115,44 @@ export class AuthService {
       expiresAt: new Date(Date.now() + VERIFICATION_EMAIL_TOKEN_TTL),
     });
 
-    // NOTE: That an example of verification URL
-    const url = `http://localhost:3000/auth/verify_email?token=${verificationToken}`;
-    this.sendEmailWorkerService.addSendEmailJobToQueue({
-      toEmail: 'example@gmail.com',
-      mjmlTemplatePath: '',
-    });
+    const verificationUrl = makeVerificationEmailUrl(verificationToken);
+    const sendEmailJob =
+      await this.sendEmailWorkerService.addSendEmailJobToQueue({
+        toEmail: email,
+        templatePath: EMAIL_TEMPLATE_PATHS.Verify,
+        variables: {
+          fullName: fullName,
+          verificationUrl: verificationUrl,
+        },
+      });
+    if (!sendEmailJob) return false;
+
     return true;
   }
 
   async verifyEmail(request: Request, response: Response) {
-    const token = request.query.token as string;
-    const tokenDocument = await this.tokenRepository.getByValue(token);
+    const tokenQueryParam = request.query.token as string;
+    const tokenDocument =
+      await this.tokenRepository.getByValue(tokenQueryParam);
     if (
       !tokenDocument ||
       tokenDocument.expiresAt < new Date() ||
       tokenDocument.revokedAt
     ) {
-      // response.redirect('/');
-      response.render('verify-email-failed.hbs');
-      return;
+      return response.render('verify-email-failed.hbs');
     }
+
+    const updateUserResult = await this.userRepository.update({
+      userId: tokenDocument.userId,
+      isVerifiedEmail: true,
+    });
+    const deleteTokenResult = await this.tokenRepository.deleteById(
+      tokenDocument._id,
+    );
+    if (!updateUserResult || !deleteTokenResult) {
+      return response.render('verify-email-failed.hbs');
+    }
+
+    return response.render('verify-email-success.hbs');
   }
 }

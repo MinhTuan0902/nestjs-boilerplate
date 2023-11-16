@@ -35,7 +35,7 @@ export class UserMutationResolver {
     @CurrentUser() { _id: currentUserId }: User,
     @Args('updateUserInput') updateUserInput: UpdateUserInput,
   ): Promise<boolean> {
-    if (currentUserId.toString() === updateUserInput.id) {
+    if (currentUserId.toString() === updateUserInput.userId) {
       return false;
     }
 

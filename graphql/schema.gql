@@ -120,5 +120,5 @@ input UpdateUserInput {
   role: UserRole = User
   email: String
   isVerifiedEmail: Boolean
-  id: ID!
+  userId: ID!
 }

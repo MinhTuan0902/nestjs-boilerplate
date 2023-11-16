@@ -58,7 +58,7 @@ export class UserRepository implements IRepository {
 
   async update(updateUserInput: UpdateUserInput): Promise<boolean> {
     const { matchedCount, modifiedCount } = await this.userModel.updateOne(
-      { _id: updateUserInput.id },
+      { _id: updateUserInput.userId },
       { $set: updateUserInput },
     );
 

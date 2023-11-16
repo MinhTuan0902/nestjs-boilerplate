@@ -1,8 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { EnvVariable, TokenType } from '@shared/enums';
+import { ENV_VARIABLES } from '@shared/constants';
+import { TokenType } from '@shared/enums';
 import { User } from '@shared/models';
-import { EnvService } from '@shared/modules/env/env.service';
+import { EnvService } from '@shared/modules/env';
 import { JWTData } from '../interfaces';
 import { AuthTokens } from '../types';
 
@@ -17,8 +18,8 @@ export class AuthTokenHelper {
     return this.jwtService.sign(payload, {
       expiresIn:
         payload.type === TokenType.Access
-          ? +this.envService.get(EnvVariable.JWTAccessTokenTimeExpiration)
-          : +this.envService.get(EnvVariable.JWTRefreshTokenTimeExpiration),
+          ? +this.envService.get(ENV_VARIABLES.JWTAccessTokenTimeExpiration)
+          : +this.envService.get(ENV_VARIABLES.JWTRefreshTokenTimeExpiration),
       algorithm: 'HS256',
     });
   }

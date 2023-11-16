@@ -1,16 +1,16 @@
-import { ErrorCode } from '@shared/enums';
+import { ERROR_CODES } from '@shared/constants';
 import { GraphQLBadRequestError } from '@shared/errors';
 
 export class TakenUsernameError extends GraphQLBadRequestError {
   constructor() {
-    super(ErrorCode.TakenUsername, 'The username has been taken');
+    super(ERROR_CODES.TakenUsername, 'The username has been taken');
     this.name = 'TakenUsernameError';
   }
 }
 
 export class TakenEmailError extends GraphQLBadRequestError {
   constructor() {
-    super(ErrorCode.TakenEmail, 'The email has been taken');
+    super(ERROR_CODES.TakenEmail, 'The email has been taken');
     this.name = 'TakenEmailError';
   }
 }
@@ -18,7 +18,7 @@ export class TakenEmailError extends GraphQLBadRequestError {
 export class NotMatchingPasswordError extends GraphQLBadRequestError {
   constructor() {
     super(
-      ErrorCode.NotMatchingPassword,
+      ERROR_CODES.NotMatchingPassword,
       'Password and repeat password are not matching',
     );
     this.name = 'NotMatchingPasswordError';
@@ -27,7 +27,7 @@ export class NotMatchingPasswordError extends GraphQLBadRequestError {
 
 export class InvalidCredentialsError extends GraphQLBadRequestError {
   constructor() {
-    super(ErrorCode.InvalidCredentials, 'The credentials are invalid');
+    super(ERROR_CODES.InvalidCredentials, 'The credentials are invalid');
     this.name = 'InvalidCredentialsError';
   }
 }

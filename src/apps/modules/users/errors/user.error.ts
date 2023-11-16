@@ -1,9 +1,9 @@
-import { ErrorCode } from '@shared/enums';
+import { ERROR_CODES } from '@shared/constants';
 import { GraphQLNotFoundError } from '@shared/errors';
 
 export class UserNotFoundError extends GraphQLNotFoundError {
   constructor() {
-    super(ErrorCode.UserNotFound, 'The user is not found');
+    super(ERROR_CODES.UserNotFound, 'The user is not found');
     this.name = 'UserNotFoundError';
   }
 }

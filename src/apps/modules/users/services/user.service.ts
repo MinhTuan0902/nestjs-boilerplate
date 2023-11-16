@@ -55,8 +55,8 @@ export class UserService {
   }
 
   async updateUser(updateUserInput: UpdateUserInput): Promise<boolean> {
-    const { id, username, email, password } = updateUserInput;
-    const user = await this.userHelperService.getUserById(id);
+    const { userId, username, email, password } = updateUserInput;
+    const user = await this.userHelperService.getUserById(userId);
 
     if (
       username &&

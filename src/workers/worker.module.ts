@@ -1,8 +1,7 @@
 import { getBullModuleConfigs } from '@configs/queues';
 import { BullModule } from '@nestjs/bull';
 import { Module } from '@nestjs/common';
-import { EnvModule } from '@shared/modules/env/env.module';
-import { EnvService } from '@shared/modules/env/env.service';
+import { EnvModule, EnvService } from '@shared/modules/env';
 import { SendEmailWorkerModule } from './modules/send-email';
 
 @Module({

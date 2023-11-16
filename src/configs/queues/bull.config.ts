@@ -1,14 +1,14 @@
 import { BullModuleOptions } from '@nestjs/bull';
-import { EnvVariable } from '@shared/enums';
-import { EnvService } from '@shared/modules/env/env.service';
+import { ENV_VARIABLES } from '@shared/constants';
+import { EnvService } from '@shared/modules/env';
 
 export const getBullModuleConfigs = (
   envService: EnvService,
 ): BullModuleOptions => {
   return {
     redis: {
-      host: envService.get(EnvVariable.RedisHost),
-      port: +envService.get(EnvVariable.RedisPort),
+      host: envService.get(ENV_VARIABLES.RedisHost),
+      port: +envService.get(ENV_VARIABLES.RedisPort),
     },
   };
 };

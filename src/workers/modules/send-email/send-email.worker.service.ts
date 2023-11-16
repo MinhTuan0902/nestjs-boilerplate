@@ -1,18 +1,21 @@
 import { InjectQueue } from '@nestjs/bull';
-import { QueueName } from '@shared/enums';
-import { Queue } from 'bull';
+import { QUEUE_NAMES } from '@shared/constants';
+import { Job, Queue } from 'bull';
 
 export interface SendEmailJobPayload {
   toEmail: string;
-  mjmlTemplatePath: string;
+  templatePath: string;
+  variables?: Object;
 }
 
 export class SendEmailWorkerService {
   constructor(
-    @InjectQueue(QueueName.SendEmail) private readonly sendEmailQueue: Queue,
+    @InjectQueue(QUEUE_NAMES.SendEmail) private readonly sendEmailQueue: Queue,
   ) {}
 
-  async addSendEmailJobToQueue(payload: SendEmailJobPayload): Promise<void> {
-    this.sendEmailQueue.add(payload);
+  async addSendEmailJobToQueue(
+    payload: SendEmailJobPayload,
+  ): Promise<Job<SendEmailJobPayload>> {
+    return this.sendEmailQueue.add(payload);
   }
 }

@@ -12,7 +12,7 @@ export class UpdateUserInput extends PartialType(CreateUserInput) {
   updaterId?: string;
 
   @Field(() => ID)
-  id: string;
+  userId: string;
 
   @TransformTrimString()
   @TransformLowerCaseString()

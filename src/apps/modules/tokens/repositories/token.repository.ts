@@ -16,4 +16,10 @@ export class TokenRepository {
   async getByValue(value: string): Promise<Token> {
     return this.tokenModel.findOne({ value: value });
   }
+
+  async deleteById(tokenId: string): Promise<boolean> {
+    const { deletedCount } = await this.tokenModel.deleteOne({ _id: tokenId });
+
+    return !!deletedCount;
+  }
 }

@@ -1,11 +1,11 @@
 import { JwtModuleOptions } from '@nestjs/jwt';
-import { EnvVariable } from '@shared/enums';
-import { EnvService } from '@shared/modules/env/env.service';
+import { ENV_VARIABLES } from '@shared/constants';
+import { EnvService } from '@shared/modules/env';
 
 export const getJWTModuleOptions = (
   envService: EnvService,
 ): JwtModuleOptions => {
   return {
-    secret: envService.get(EnvVariable.JWTSecretString),
+    secret: envService.get(ENV_VARIABLES.JWTSecretString),
   };
 };
