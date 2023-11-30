@@ -9,8 +9,8 @@
 /* eslint-disable */
 
 export enum UserRole {
-    User = "User",
-    Admin = "Admin"
+    USER = "USER",
+    ADMIN = "ADMIN"
 }
 
 export enum SortingUsersOptionInput {

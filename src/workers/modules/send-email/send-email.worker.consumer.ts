@@ -9,7 +9,6 @@ export class SendEmailWorkerConsumer {
 
   @Process()
   async handleSendEmailJob(job: Job<SendEmailJobPayload>) {
-    const { toEmail, templatePath, variables } = job.data;
     // TODO: Make and send verification email
     return {};
   }

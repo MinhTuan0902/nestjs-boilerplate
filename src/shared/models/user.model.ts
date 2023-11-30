@@ -1,26 +1,31 @@
 import { Field, ObjectType } from '@nestjs/graphql';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { UserRole } from '@shared/enums';
+import { eUserRole } from '@shared/enums';
 import { Document } from 'mongoose';
 import { BaseModel } from './base';
 
 @ObjectType()
 @Schema({ timestamps: true })
 export class User extends BaseModel {
-  @Prop({ type: String, unique: true })
+  @Prop({ type: String, required: true, unique: true })
   @Field(() => String)
   username: string;
 
-  @Prop({ type: String })
+  @Prop({ type: String, required: true })
   @Field(() => String)
   fullName: string;
 
   @Prop({ type: String })
   encryptedPassword: string;
 
-  @Prop({ type: String, enum: UserRole, default: UserRole.User })
-  @Field(() => UserRole)
-  role: UserRole;
+  @Prop({
+    type: String,
+    required: true,
+    enum: eUserRole,
+    default: eUserRole.USER,
+  })
+  @Field(() => eUserRole)
+  role: eUserRole;
 
   @Prop({ type: String })
   @Field(() => String, { nullable: true })

@@ -1,7 +1,7 @@
-import { TokenType, UserRole } from '@shared/enums';
+import { eTokenType, eUserRole } from '@shared/enums';
 
 export interface JWTData {
   userId: string;
-  role: UserRole;
-  type: TokenType;
+  role: eUserRole;
+  type: eTokenType;
 }

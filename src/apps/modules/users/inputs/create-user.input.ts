@@ -4,7 +4,7 @@ import {
   TransformLowerCaseString,
   TransformTrimString,
 } from '@shared/decorators/transform';
-import { UserRole } from '@shared/enums';
+import { eUserRole } from '@shared/enums';
 import { MaxLength, MinLength } from 'class-validator';
 
 @InputType()
@@ -30,8 +30,8 @@ export class CreateUserInput {
   password: string;
   encryptedPassword: string;
 
-  @Field(() => UserRole, { defaultValue: UserRole.User })
-  role: UserRole;
+  @Field(() => eUserRole, { defaultValue: eUserRole.USER })
+  role: eUserRole;
 
   @TransformTrimString()
   @TransformLowerCaseString()

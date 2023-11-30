@@ -4,7 +4,7 @@ import {
   RequireRoles,
 } from '@app/modules/auth/decorators';
 import { Args, Mutation, Resolver } from '@nestjs/graphql';
-import { UserRole } from '@shared/enums';
+import { eUserRole } from '@shared/enums';
 import { User } from '@shared/models';
 import { ParseObjectIdPipe } from '@shared/pipes';
 import { CreateUserInput, UpdateUserInput } from '../inputs';
@@ -15,7 +15,7 @@ export class UserMutationResolver {
   constructor(private readonly userService: UserService) {}
 
   // NOTE: Guard ở gần với controller/resolver hơn thì chạy trước
-  @RequireRoles(UserRole.Admin)
+  @RequireRoles(eUserRole.ADMIN)
   @RequireAuth()
   @Mutation(() => User)
   async createUser(
@@ -28,7 +28,7 @@ export class UserMutationResolver {
     });
   }
 
-  @RequireRoles(UserRole.Admin)
+  @RequireRoles(eUserRole.ADMIN)
   @RequireAuth()
   @Mutation(() => Boolean)
   async updateUser(
@@ -45,7 +45,7 @@ export class UserMutationResolver {
     });
   }
 
-  @RequireRoles(UserRole.Admin)
+  @RequireRoles(eUserRole.ADMIN)
   @RequireAuth()
   @Mutation(() => Boolean)
   async deleteUser(

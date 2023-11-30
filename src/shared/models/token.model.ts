@@ -1,5 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { TokenType } from '@shared/enums';
+import { eTokenType } from '@shared/enums';
 import { Document, Schema as MongoSchema } from 'mongoose';
 import { BaseModel } from './base';
 
@@ -11,8 +11,8 @@ export class Token extends BaseModel {
   @Prop({ type: String, required: true, unique: true })
   value: string;
 
-  @Prop({ type: String, enum: TokenType })
-  type: TokenType;
+  @Prop({ type: String, enum: eTokenType })
+  type: eTokenType;
 
   @Prop({ type: Date, required: true })
   expiresAt: Date;

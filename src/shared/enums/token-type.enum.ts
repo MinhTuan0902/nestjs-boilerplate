@@ -1,5 +1,5 @@
-export enum TokenType {
-  Access = 'ACCESS',
-  Refresh = 'REFRESH',
-  Verify = 'VERIFY',
+export enum eTokenType {
+  ACCESS = 'access',
+  REFRESH = 'refresh',
+  VERIFY = 'verify',
 }

@@ -2,7 +2,7 @@ import { UserRepository } from '@app/modules/users/repositories';
 import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
 import { GqlExecutionContext } from '@nestjs/graphql';
 import { JwtService } from '@nestjs/jwt';
-import { TokenType } from '@shared/enums';
+import { eTokenType } from '@shared/enums';
 import { GraphQLUnauthorizedError } from '@shared/errors';
 import { JWTData } from '../interfaces';
 
@@ -40,7 +40,7 @@ export class JWTAuthGuard implements CanActivate {
       }
 
       const payload: JWTData = this.jwtService.verify(token);
-      if (payload.type !== TokenType.Access) {
+      if (payload.type !== eTokenType.ACCESS) {
         throw new GraphQLUnauthorizedError();
       }
 

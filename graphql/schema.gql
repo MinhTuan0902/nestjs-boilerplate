@@ -22,8 +22,8 @@ A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date
 scalar DateTime
 
 enum UserRole {
-  User
-  Admin
+  USER
+  ADMIN
 }
 
 type PageInfo {
@@ -108,7 +108,7 @@ input CreateUserInput {
   username: String!
   fullName: String!
   password: String!
-  role: UserRole! = User
+  role: UserRole! = USER
   email: String
   isVerifiedEmail: Boolean
 }
@@ -117,7 +117,7 @@ input UpdateUserInput {
   username: String
   fullName: String
   password: String
-  role: UserRole = User
+  role: UserRole = USER
   email: String
   isVerifiedEmail: Boolean
   userId: ID!

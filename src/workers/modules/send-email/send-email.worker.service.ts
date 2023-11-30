@@ -5,7 +5,7 @@ import { Job, Queue } from 'bull';
 export interface SendEmailJobPayload {
   toEmail: string;
   templatePath: string;
-  variables?: Object;
+  variables?: object;
 }
 
 export class SendEmailWorkerService {

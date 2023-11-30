@@ -4,7 +4,7 @@ import { UserRepository } from '@app/modules/users/repositories';
 import { Injectable } from '@nestjs/common';
 import { EventEmitter2 } from '@nestjs/event-emitter';
 import { EMAIL_TEMPLATE_PATHS, EVENT_NAMES } from '@shared/constants';
-import { TokenType } from '@shared/enums';
+import { eTokenType } from '@shared/enums';
 import { User } from '@shared/models';
 import { SendEmailWorkerService } from '@worker/modules/send-email';
 import { randomBytes } from 'crypto';
@@ -53,7 +53,7 @@ export class AuthService {
     const newUser = await this.userRepository.create(manualRegisterInput);
     const authTokens = this.authTokenHelper.generateAuthTokens(newUser);
 
-    // TODO: Send and save token
+    // TODO: Save token
     this.eventEmitter.emitAsync(EVENT_NAMES.UserLoggedIn);
 
     return authTokens;
@@ -68,6 +68,7 @@ export class AuthService {
 
     const authTokens = this.authTokenHelper.generateAuthTokens(user);
 
+    // TODO: Save token
     this.eventEmitter.emitAsync(EVENT_NAMES.UserLoggedIn);
 
     return authTokens;
@@ -111,7 +112,7 @@ export class AuthService {
       _id: new Types.ObjectId().toString(),
       userId: currentUserId,
       value: verificationToken,
-      type: TokenType.Verify,
+      type: eTokenType.VERIFY,
       expiresAt: new Date(Date.now() + VERIFICATION_EMAIL_TOKEN_TTL),
     });
 

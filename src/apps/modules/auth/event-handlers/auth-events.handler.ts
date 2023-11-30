@@ -3,7 +3,7 @@ import { UserRepository } from '@app/modules/users/repositories';
 import { Injectable } from '@nestjs/common';
 import { OnEvent } from '@nestjs/event-emitter';
 import { EMAIL_TEMPLATE_PATHS, EVENT_NAMES } from '@shared/constants';
-import { TokenType } from '@shared/enums';
+import { eTokenType } from '@shared/enums';
 import { User } from '@shared/models';
 import { SendEmailWorkerService } from '@worker/modules/send-email';
 import { randomBytes } from 'crypto';
@@ -39,7 +39,7 @@ export class AuthEventsHandler {
         _id: new Types.ObjectId().toString(),
         userId: userId,
         value: verificationToken,
-        type: TokenType.Verify,
+        type: eTokenType.VERIFY,
         expiresAt: new Date(Date.now() + VERIFICATION_EMAIL_TOKEN_TTL),
       });
 

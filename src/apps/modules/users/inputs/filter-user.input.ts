@@ -1,5 +1,5 @@
 import { Field, InputType } from '@nestjs/graphql';
-import { UserRole } from '@shared/enums';
+import { eUserRole } from '@shared/enums';
 import { BaseFilterInput } from '@shared/inputs';
 
 @InputType()
@@ -16,9 +16,9 @@ export class FilterUsersInput extends BaseFilterInput {
   @Field(() => String, { nullable: true })
   fullName_contains?: string;
 
-  @Field(() => UserRole, { nullable: true })
-  role_equal?: UserRole;
+  @Field(() => eUserRole, { nullable: true })
+  role_equal?: eUserRole;
 
-  @Field(() => [UserRole], { nullable: true })
-  role_in?: Array<UserRole>;
+  @Field(() => [eUserRole], { nullable: true })
+  role_in?: Array<eUserRole>;
 }

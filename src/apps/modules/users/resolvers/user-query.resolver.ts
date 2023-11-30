@@ -1,6 +1,6 @@
 import { RequireAuth, RequireRoles } from '@app/modules/auth/decorators';
 import { Args, Query, Resolver } from '@nestjs/graphql';
-import { UserRole } from '@shared/enums';
+import { eUserRole } from '@shared/enums';
 import { User } from '@shared/models';
 import { ParseObjectIdPipe } from '@shared/pipes';
 import { QueryUsersInput } from '../inputs';
@@ -17,7 +17,7 @@ export class UserQueryResolver {
     return this.userService.getUser(id);
   }
 
-  @RequireRoles(UserRole.Admin)
+  @RequireRoles(eUserRole.ADMIN)
   @RequireAuth()
   @Query(() => PaginatedUsers)
   async getUsers(

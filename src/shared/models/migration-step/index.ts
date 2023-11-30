@@ -1,1 +1,1 @@
-export * from './migration-step.model'
+export * from './migration-step.model';
