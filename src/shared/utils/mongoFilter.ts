@@ -1,7 +1,6 @@
 import { QuerySelector } from 'mongoose';
 
 interface IFilterQuery {
-  /** eslint-disable @typescript-eslint/no-explicit-any */
   [key: string]: QuerySelector<any>;
 }
 
