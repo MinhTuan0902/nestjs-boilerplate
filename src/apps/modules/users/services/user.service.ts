@@ -1,8 +1,7 @@
-import { TakenEmailError, TakenUsernameError } from '@app/modules/auth/errors';
 import { encryptPassword } from '@app/modules/auth/helpers';
 import { Injectable } from '@nestjs/common';
 import { User } from '@shared/models';
-import { UserNotFoundError } from '../errors';
+import { TakenUsernameError, UserNotFoundError } from '../errors';
 import { UserHelper } from '../helpers';
 import { CreateUserInput, QueryUsersInput, UpdateUserInput } from '../inputs';
 import { UserRepository } from '../repositories';
@@ -18,13 +17,9 @@ export class UserService {
   ) {}
 
   async createUser(createUserInput: CreateUserInput): Promise<User> {
-    const { username, email, password } = createUserInput;
+    const { username, password } = createUserInput;
     if (await this.userHelper.isTakenUsername(username)) {
       throw new TakenUsernameError();
-    }
-
-    if (email && (await this.userHelper.isTakenEmail(email))) {
-      throw new TakenEmailError();
     }
 
     createUserInput.encryptedPassword = encryptPassword(password);
@@ -55,7 +50,7 @@ export class UserService {
   }
 
   async updateUser(updateUserInput: UpdateUserInput): Promise<boolean> {
-    const { userId, username, email, password } = updateUserInput;
+    const { userId, username, password } = updateUserInput;
     const user = await this.userHelperService.getUserById(userId);
 
     if (
@@ -64,14 +59,6 @@ export class UserService {
       (await this.userHelper.isTakenUsername(username))
     ) {
       throw new TakenUsernameError();
-    }
-
-    if (
-      email &&
-      email !== user?.email &&
-      (await this.userHelper.isTakenEmail(email))
-    ) {
-      throw new TakenEmailError();
     }
 
     if (password) {

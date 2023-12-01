@@ -9,6 +9,7 @@ export const getBullModuleConfigs = (
     redis: {
       host: envService.get(ENV_VARIABLES.RedisHost),
       port: +envService.get(ENV_VARIABLES.RedisPort),
+      keyPrefix: 'boilerplate',
     },
   };
 };

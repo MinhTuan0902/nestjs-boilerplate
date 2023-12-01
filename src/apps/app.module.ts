@@ -6,6 +6,7 @@ import { EventEmitterModule } from '@nestjs/event-emitter';
 import { GraphQLModule } from '@nestjs/graphql';
 import { MongooseModule } from '@nestjs/mongoose';
 import { EnvModule, EnvService } from '@shared/modules/env';
+import { ExampleWorkerModule } from '@worker/modules/example';
 import { AppController } from './app.controller';
 import { AppResolver } from './app.resolver';
 import { AppService } from './app.service';
@@ -31,6 +32,8 @@ import { UserModule } from './modules/users/user.module';
     AuthModule,
     HealthCheckModule,
     UserModule,
+
+    ExampleWorkerModule,
   ],
   controllers: [AppController],
   providers: [AppResolver, AppService],

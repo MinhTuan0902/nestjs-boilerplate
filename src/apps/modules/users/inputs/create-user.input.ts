@@ -32,12 +32,4 @@ export class CreateUserInput {
 
   @Field(() => eUserRole, { defaultValue: eUserRole.USER })
   role: eUserRole;
-
-  @TransformTrimString()
-  @TransformLowerCaseString()
-  @Field(() => String, { nullable: true })
-  email?: string;
-
-  @Field(() => Boolean, { nullable: true })
-  isVerifiedEmail?: boolean;
 }

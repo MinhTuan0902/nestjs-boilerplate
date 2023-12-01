@@ -26,14 +26,6 @@ export class User extends BaseModel {
   })
   @Field(() => eUserRole)
   role: eUserRole;
-
-  @Prop({ type: String })
-  @Field(() => String, { nullable: true })
-  email?: string;
-
-  @Prop({ type: Boolean, default: false })
-  @Field(() => Boolean)
-  isVerifiedEmail: boolean;
 }
 
 export type UserDocument = User & Document;

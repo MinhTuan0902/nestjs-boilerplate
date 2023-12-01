@@ -30,10 +30,6 @@ export class UserRepository implements IRepository {
     return this.userModel.findOne({ username: username }).lean().exec();
   }
 
-  async getByEmail(email: string): Promise<User> {
-    return this.userModel.findOne({ email: email }).lean().exec();
-  }
-
   async getById(id: string): Promise<User> {
     return this.userModel.findById(id).lean().exec();
   }

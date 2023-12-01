@@ -58,8 +58,6 @@ export interface CreateUserInput {
     fullName: string;
     password: string;
     role: UserRole;
-    email?: Nullable<string>;
-    isVerifiedEmail?: Nullable<boolean>;
 }
 
 export interface UpdateUserInput {
@@ -67,8 +65,6 @@ export interface UpdateUserInput {
     fullName?: Nullable<string>;
     password?: Nullable<string>;
     role?: Nullable<UserRole>;
-    email?: Nullable<string>;
-    isVerifiedEmail?: Nullable<boolean>;
     userId: string;
 }
 
@@ -82,8 +78,6 @@ export interface User {
     username: string;
     fullName: string;
     role: UserRole;
-    email?: Nullable<string>;
-    isVerifiedEmail: boolean;
 }
 
 export interface PageInfo {
@@ -117,8 +111,6 @@ export interface IQuery {
 export interface IMutation {
     manualRegister(manualRegisterInput: ManualRegisterInput): AuthTokens | Promise<AuthTokens>;
     manualLogin(manualLoginInput: ManualLoginInput): AuthTokens | Promise<AuthTokens>;
-    updateEmail(newEmail: string): boolean | Promise<boolean>;
-    makeVerificationEmail(): boolean | Promise<boolean>;
     createUser(createUserInput: CreateUserInput): User | Promise<User>;
     updateUser(updateUserInput: UpdateUserInput): boolean | Promise<boolean>;
     deleteUser(id: string): boolean | Promise<boolean>;

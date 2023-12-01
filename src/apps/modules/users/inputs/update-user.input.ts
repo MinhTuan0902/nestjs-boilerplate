@@ -1,9 +1,4 @@
 import { Field, ID, InputType, PartialType } from '@nestjs/graphql';
-import {
-  TransformLowerCaseString,
-  TransformTrimString,
-} from '@shared/decorators/transform';
-import { IsEmail } from 'class-validator';
 import { CreateUserInput } from './create-user.input';
 
 @InputType()
@@ -13,12 +8,4 @@ export class UpdateUserInput extends PartialType(CreateUserInput) {
 
   @Field(() => ID)
   userId: string;
-
-  @TransformTrimString()
-  @TransformLowerCaseString()
-  @IsEmail()
-  @Field(() => String, { nullable: true })
-  email?: string;
-
-  isVerifiedEmail: boolean;
 }

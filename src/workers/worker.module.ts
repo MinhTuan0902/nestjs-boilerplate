@@ -2,7 +2,7 @@ import { getBullModuleConfigs } from '@configs/queues';
 import { BullModule } from '@nestjs/bull';
 import { Module } from '@nestjs/common';
 import { EnvModule, EnvService } from '@shared/modules/env';
-import { SendEmailWorkerModule } from './modules/send-email';
+import { ExampleWorkerModule } from './modules/example';
 
 @Module({
   imports: [
@@ -13,7 +13,7 @@ import { SendEmailWorkerModule } from './modules/send-email';
       useFactory: (envService: EnvService) => getBullModuleConfigs(envService),
     }),
 
-    SendEmailWorkerModule,
+    ExampleWorkerModule,
   ],
 })
 export class WorkerModule {}

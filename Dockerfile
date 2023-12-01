@@ -27,16 +27,16 @@ RUN npm run build:all
 # Build API
 # RUN npm run build
 
-#Build worker
+# Build worker
 # RUN npm run build:worker
 
 FROM base as final
 
-ENV NODE_ENV production
+ENV NODE_ENV development
 
 COPY package.json .
 
-# Copy runtiem dependencies from deps stage
+# Copy runtime dependencies from deps stage
 COPY --from=deps /usr/src/app/node_modules ./node_modules
 
 # Copy built application from build stage
