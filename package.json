@@ -16,7 +16,7 @@
     "start:worker:dev": "nest start --config nest-cli-worker.json",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start:worker:prod": "node dist/worker",
-    "create:migration": "node ./scripts/create-migration-step.js",
+    "create:migration:step": "node ./scripts/create-migration-step.js",
     "run:migrations": "",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\"",
     "test": "jest",

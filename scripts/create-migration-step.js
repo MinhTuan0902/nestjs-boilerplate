@@ -6,7 +6,7 @@ const { join, resolve } = require('path');
 const program = new Command();
 const MIGRATION_STEP_TEMPLATE_PATH = join(
   resolve(),
-  'templates/migrations/mustache',
+  'src/apps/migrations/templates/mustache',
   'migration-step.mustache',
 );
 const MIGRATION_STEP_TEMPLATE_CONTENT = readFileSync(
@@ -37,7 +37,9 @@ program
 
     open(migrationStepPath, 'w', (err) => {
       if (err) throw err;
-      console.log(`File ${options.name} has been created`);
+      console.log(
+        `Migration step ${options.name} successfully created.\nGo to ${migrationStepPath} to update migrate logic`,
+      );
     });
 
     writeFile(migrationStepPath, rendered, (err) => {
