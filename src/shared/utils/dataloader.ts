@@ -7,7 +7,7 @@ export const sortDataByIds = <T>(
   data: Array<T>,
   keys: Array<string>,
   property = '_id',
-) => {
+): Array<T> => {
   const mapData = {};
   for (let i = 0; i < data.length; i++) {
     const item = data[i];
@@ -27,7 +27,7 @@ export const sortArrayData = <T>(
   data: Array<T>,
   keys: Array<string>,
   property: string,
-) => {
+): Array<Array<T>> => {
   const mapData = {};
   for (let i = 0; i < data.length; i++) {
     const item = data[i];

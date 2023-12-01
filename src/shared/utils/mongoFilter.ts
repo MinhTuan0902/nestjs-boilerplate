@@ -1,10 +1,13 @@
 import { QuerySelector } from 'mongoose';
 
 interface IFilterQuery {
+  /** eslint-disable @typescript-eslint/no-explicit-any */
   [key: string]: QuerySelector<any>;
 }
 
-export const transformFilterToMongoFilterQuery = (filter: unknown) => {
+export const transformFilterToMongoFilterQuery = (
+  filter: unknown,
+): IFilterQuery => {
   const filterQuery: IFilterQuery = {};
   if (typeof filter === 'object') {
     for (const prop in filter) {
@@ -58,5 +61,6 @@ export const transformFilterToMongoFilterQuery = (filter: unknown) => {
       }
     }
   }
+
   return filterQuery;
 };

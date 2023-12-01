@@ -2,7 +2,7 @@ version: 3.0.0
 
 services:
   mongodb:
-    container_name: database
+    container_name: mongodb
     image: mongo:7.0-jammy
     restart: always
     networks:
@@ -29,7 +29,7 @@ services:
       - mongodb
       - redis
     environment:
-      NODE_ENV: development
+      NODE_ENV: production
     env_file:
       - .env
     networks:

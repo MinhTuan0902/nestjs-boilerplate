@@ -32,16 +32,16 @@ RUN npm run build:all
 
 FROM base as final
 
-ENV NODE_ENV development
+ENV NODE_ENV production
 
 COPY package.json .
+COPY ./views ./views
 
 # Copy runtime dependencies from deps stage
 COPY --from=deps /usr/src/app/node_modules ./node_modules
 
 # Copy built application from build stage
 COPY --from=build /usr/src/app/dist ./dist
-COPY --from=build /usr/src/app/templates ./templates
 
 EXPOSE ${PORT}
 

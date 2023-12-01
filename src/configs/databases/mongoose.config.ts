@@ -6,6 +6,6 @@ export const getMongooseModuleOptions = (
   envService: EnvService,
 ): MongooseModuleOptions => {
   return {
-    uri: envService.get(ENV_VARIABLES.MongoUrl),
+    uri: envService.get(ENV_VARIABLES.MongoDBUrl),
   };
 };
