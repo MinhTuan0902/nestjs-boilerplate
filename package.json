@@ -1,8 +1,8 @@
 {
   "name": "boilerplate",
   "version": "0.0.1",
-  "description": "",
-  "author": "",
+  "description": "An API boilerplate for quick development",
+  "author": "https://github.com/MinhTuan0902",
   "private": true,
   "license": "UNLICENSED",
   "scripts": {

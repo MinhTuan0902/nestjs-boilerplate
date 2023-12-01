@@ -6,7 +6,7 @@ export class Token {
   value: string;
 
   @Field(() => Date, { nullable: true })
-  expiresAt?: Date;
+  expiresAt: Date;
 }
 
 @ObjectType()

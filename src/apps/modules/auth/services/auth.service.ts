@@ -38,8 +38,11 @@ export class AuthService {
     const newUser = await this.userRepository.create(manualRegisterInput);
     const authTokens = this.authTokenHelper.generateAuthTokens(newUser);
 
-    // TODO: Save token
-    this.eventEmitter.emitAsync(EVENT_NAMES.UserLoggedIn);
+    this.eventEmitter.emitAsync(
+      EVENT_NAMES.UserLoggedIn,
+      newUser._id,
+      authTokens.refresh,
+    );
 
     return authTokens;
   }
@@ -53,8 +56,11 @@ export class AuthService {
 
     const authTokens = this.authTokenHelper.generateAuthTokens(user);
 
-    // TODO: Save token
-    this.eventEmitter.emitAsync(EVENT_NAMES.UserLoggedIn);
+    this.eventEmitter.emitAsync(
+      EVENT_NAMES.UserLoggedIn,
+      user._id,
+      authTokens.refresh,
+    );
 
     return authTokens;
   }
