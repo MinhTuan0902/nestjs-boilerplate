@@ -48,6 +48,7 @@ type AuthTokens {
 type Query {
   getHello: String!
   getMySelf: User!
+  getAuthTokens(refreshToken: String!): AuthTokens!
   getUser(id: String!): User!
   getUsers(queryUsersInput: QueryUsersInput!): PaginatedUsers!
 }

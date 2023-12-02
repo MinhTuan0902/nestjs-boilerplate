@@ -16,6 +16,6 @@ export class ExampleWorkerService {
   async addExampleJobToQueue(
     payload: ExampleJobPayload,
   ): Promise<Job<ExampleJobPayload>> {
-    return this.exampleQueue.add(payload);
+    return this.exampleQueue.add(payload, { removeOnComplete: true });
   }
 }

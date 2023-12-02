@@ -12,15 +12,24 @@ export class AuthEventsHandler {
 
   @OnEvent(EVENT_NAMES.UserLoggedIn)
   handleUserLoggedInEvent(userId: string, refreshToken: Token): void {
-    setImmediate(() => {
+    setImmediate(async () => {
       try {
-        this.tokenRepository.create({
-          _id: makeObjectId().toString(),
-          userId: userId,
-          value: refreshToken.value,
-          expiresAt: refreshToken.expiresAt,
-          type: eTokenType.REFRESH,
-        });
+        const duplicatedToken = await this.tokenRepository.getByValue(
+          refreshToken.value,
+        );
+        if (duplicatedToken) {
+          this.tokenRepository.update(duplicatedToken._id, {
+            expiresAt: refreshToken.expiresAt,
+          });
+        } else {
+          this.tokenRepository.create({
+            _id: makeObjectId().toString(),
+            userId: userId,
+            value: refreshToken.value,
+            expiresAt: refreshToken.expiresAt,
+            type: eTokenType.REFRESH,
+          });
+        }
       } catch (error) {
         // TODO: Use custom logger
         console.error(error);

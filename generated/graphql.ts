@@ -104,6 +104,7 @@ export interface AuthTokens {
 export interface IQuery {
     getHello(): string | Promise<string>;
     getMySelf(): User | Promise<User>;
+    getAuthTokens(refreshToken: string): AuthTokens | Promise<AuthTokens>;
     getUser(id: string): User | Promise<User>;
     getUsers(queryUsersInput: QueryUsersInput): PaginatedUsers | Promise<PaginatedUsers>;
 }

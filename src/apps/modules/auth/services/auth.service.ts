@@ -1,9 +1,12 @@
+import { TokenRepository } from '@app/modules/tokens/repositories';
 import { TakenUsernameError } from '@app/modules/users/errors';
 import { UserHelper } from '@app/modules/users/helpers';
 import { UserRepository } from '@app/modules/users/repositories';
 import { Injectable } from '@nestjs/common';
 import { EventEmitter2 } from '@nestjs/event-emitter';
 import { EVENT_NAMES } from '@shared/constants';
+import { eTokenType } from '@shared/enums';
+import { GraphQLUnauthorizedError } from '@shared/errors';
 import { InvalidCredentialsError, NotMatchingPasswordError } from '../errors';
 import {
   AuthTokenHelper,
@@ -20,6 +23,7 @@ export class AuthService {
     private readonly eventEmitter: EventEmitter2,
     private readonly userHelper: UserHelper,
     private readonly userRepository: UserRepository,
+    private readonly tokenRepository: TokenRepository,
   ) {}
 
   async manualRegister(
@@ -61,6 +65,29 @@ export class AuthService {
       user._id,
       authTokens.refresh,
     );
+
+    return authTokens;
+  }
+
+  async getAuthTokens(refreshToken: string): Promise<AuthTokens> {
+    const token = await this.tokenRepository.getByValue(refreshToken);
+    if (
+      !token ||
+      token.expiresAt > new Date() ||
+      token.type !== eTokenType.REFRESH
+    ) {
+      throw new GraphQLUnauthorizedError();
+    }
+
+    const user = await this.userRepository.getById(token.userId);
+    if (!user) {
+      throw new GraphQLUnauthorizedError();
+    }
+
+    const authTokens = this.authTokenHelper.generateAuthTokens(user);
+    await this.tokenRepository.update(token._id, {
+      value: authTokens.refresh.value,
+    });
 
     return authTokens;
   }

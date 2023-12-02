@@ -14,7 +14,19 @@ export class TokenRepository {
   }
 
   async getByValue(value: string): Promise<Token> {
-    return this.tokenModel.findOne({ value: value });
+    return this.tokenModel.findOne({ value: value }).lean().exec();
+  }
+
+  async update(
+    tokenId: string,
+    update: Pick<Partial<Token>, 'value' | 'expiresAt'>,
+  ): Promise<boolean> {
+    const { matchedCount, modifiedCount } = await this.tokenModel.updateOne(
+      { _id: tokenId },
+      { $set: { ...update } },
+    );
+
+    return !!matchedCount && !!modifiedCount;
   }
 
   async deleteById(tokenId: string): Promise<boolean> {

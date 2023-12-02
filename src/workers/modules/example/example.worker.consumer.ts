@@ -7,7 +7,7 @@ import { ExampleJobPayload } from './example.worker.service';
 export class ExampleWorkerConsumer {
   @Process()
   handleExampleJob(job: Job<ExampleJobPayload>): ExampleJobPayload {
-    console.log(job.data);
+    console.log("Job's data payload from another services:", job.data.data);
     return job.data;
   }
 }
